@@ -9,12 +9,10 @@ def main():
     soup = BeautifulSoup(page.text, 'html.parser')
     Information = soup.find(id='__NEXT_DATA__').string
     y= json.loads(Information)
-    pprint.pprint(y)
+    pprint.pprint(y['props']['pageProps']['data'])
 
+    #pprint.pprint(y['props']['pageProps']['data']['pianoPuzzler']['publishDate'])
 
-    #print(Information)
-    #Such pretty soup
-    #print(soup.prettify())
     pass
 
 
