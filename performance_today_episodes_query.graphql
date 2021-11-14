@@ -1,0 +1,44 @@
+query PerformanceTodayEpisodesQuery {
+    collection(slug: "performance-today", contentAreaSlug: "yourclassical") {
+        title
+        descriptionText
+        results(pageSize: 10 page: 3) {
+            totalPages
+            currentPage
+            nextPage
+            items {
+                title
+                subtitle
+                resourceType
+                publishDate
+                descriptionText
+                audio {
+                    encodings {
+                        filesize
+                        format
+                        httpFilePath
+                    }
+                    title
+                    updatedAt
+                }
+                body
+                canonicalSlug
+                primaryVisuals {
+                    thumbnail {
+                        caption
+                        type
+                        aspectRatios {
+                            uncropped {
+                                instances {
+                                    url
+                                    height
+                                    width
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

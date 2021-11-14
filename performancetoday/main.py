@@ -1,5 +1,129 @@
 from performancetoday.models.episode import Episode
 
+def graph_ql():
+    from gql import gql, Client
+    from gql.transport.aiohttp import AIOHTTPTransport
+
+    # Select your transport with a defined url endpoint
+    transport = AIOHTTPTransport(url="https://cmsapi.publicradio.org/graphql")
+
+    # Create a GraphQL client using the defined transport
+    client = Client(transport=transport, fetch_schema_from_transport=True)
+
+    # Provide a GraphQL query
+    query = gql(
+        """
+        query CollectionQuery {
+            collection(slug: "performance-today", contentAreaSlug: "yourclassical") {
+                title
+                subtitle
+                canonicalSlug
+                resourceType
+                publishDate
+                updatedAt
+                descriptionText
+                results(pageSize: 10 page: 1) {
+                    totalPages
+                    currentPage
+                    nextPage
+                    items {
+                        title
+                        subtitle
+                        resourceType
+                        publishDate
+                        descriptionText
+                        audio {
+                         encodings {
+                           filesize
+                           format
+                           httpFilePath
+                         }
+                         id
+                         title
+                         updatedAt
+                        }
+                        body
+                        canonicalSlug
+                        id
+                        primaryVisuals {
+                          thumbnail {
+                            altText
+                            caption
+                            guid
+                            type
+                            preferredAspectRatio {
+                              instances {
+                                url
+                                height
+                                width
+                              }
+                              slug
+                            }
+                          }
+                        }
+                        ... on Link {
+                            canonicalUrl
+                            destination
+                        }
+                        ... on Episode {
+                            episodeNumber
+                            podcastBody
+                        }
+                        ... on Story {
+                            shortTitle
+                        }
+                    }
+                }
+            }
+        }
+    """
+    )
+
+    # query = gql("""{
+    #     __schema {
+    #         types {
+    #           name
+    #         }
+    #       }
+    #   }""")
+
+    query = gql("""
+        {
+          __type(name: "Program") {
+            name
+            description
+            fields {
+              name
+              type {
+                name
+                kind
+              }
+            }
+          }
+        }
+        """)
+    # AudioList
+    # Audio
+    # Collection
+    # CollectionItem
+    # Episode
+    # Image
+    # Potlatch
+    # Program
+    # Segment
+    # Story
+    # query = gql("""{
+    #         __schema {
+    #             queryType {
+    #               name
+    #             }
+    #           }
+    #       }""")
+    # Execute the query on the transport
+    result = client.execute(query)
+    import pprint
+    pprint.pprint(result)
+
 
 def main():
 
