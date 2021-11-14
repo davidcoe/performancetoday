@@ -139,15 +139,19 @@ def main():
     y= json.loads(Information)
     #pprint.pprint(y['props']['pageProps']['data']['program']['results']['items'])
     episodes = y['props']['pageProps']['data']['program']['results']['items']
+    CoolMethod(episodes)
+    pass
+
+
+def CoolMethod(episodes):
     for episode in episodes:
         title = episode['title']
         publishDate = episode['publishDate']
         description = episode['descriptionText']
         photoUrl = episode['primaryVisuals']['social']['preferredAspectRatio']['instances'][0]['url']
         audioUrl = episode['audio'][0]['encodings'][0]['playFilePath']
-        e=Episode(publishDate, title, description, photoUrl, audioUrl)
+        e = Episode(publishDate, title, description, photoUrl, audioUrl)
         print(e)
-    pass
 
 
 if __name__ == '__main__':
